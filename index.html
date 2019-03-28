@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> -->
+    <!-- <script src="http://fiddle.tinymce.com/tinymce/4.3.3/tinymce.js"></script> -->
+    <script src="./assets/jquery.min.js"></script>
+    <script src="./assets/tinymce.js"></script>
+    
+    <script type="text/javascript">
+        function initTinymce() {
+            try {
+                tinymce.remove();
+                tinymce.init({
+                    selector: "textarea",
+                    init_instance_callback: function (editor) {
+                        if (!window.tmceInited) {
+                            window.tmceInited = true;
+                            setTimeout(function () {
+                                removeTextarea();
+                                addTextarea();
+                                initTinymce();
+                            });
+                        }
+                    }
+                });
+            } catch (e) {
+                console.error('Here is a catched error:');
+                console.error(e);
+                // NOTE: At the moment I tested the code in Firefox Quantum 65.0.1 (64-bit) on Ubuntu 18.10.
+                // debugger;
+            }
+        }
+
+        function removeTextarea() {
+            $('form').html('');
+        }
+
+        function addTextarea() {
+            $('form').html('<textarea name="content"></textarea>');
+        }
+
+        window.addEventListener('load', function () {
+            initTinymce();
+        });
+    </script>
+
+    <h1>Look into console to see an error.</h1>
+    
+    <form ng-non-bindable method="post" action="dump.php">
+        <textarea name="content"></textarea>
+    </form>
+</body>
+</html>
